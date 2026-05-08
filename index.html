@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幻域養成：無盡之塔</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 頂部標題與狀態列 -->
+        <header class="game-header glass-panel">
+            <h1>幻域養成 <span>無盡之塔</span></h1>
+            <div class="player-summary">
+                <span id="player-level" class="badge">Lv. 1</span>
+                <span id="player-name">新手冒險者</span>
+                <button id="btn-open-char-list" class="btn-icon" title="切換角色">👤</button>
+            </div>
+            <div class="exp-bar-container">
+                <div class="exp-bar" id="exp-bar"></div>
+                <span class="exp-text" id="exp-text">0 / 100</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- 左側：角色屬性與動作 -->
+            <section class="left-panel">
+                <div class="stats-card glass-panel fade-in">
+                    <h2>角色能力</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item"><span class="stat-label">血量</span><span class="stat-value" id="stat-hp">100</span></div>
+                        <div class="stat-item"><span class="stat-label">攻擊</span><span class="stat-value" id="stat-atk">10</span></div>
+                        <div class="stat-item"><span class="stat-label">魔法</span><span class="stat-value" id="stat-mag">10</span></div>
+                        <div class="stat-item"><span class="stat-label">防禦</span><span class="stat-value" id="stat-def">5</span></div>
+                        <div class="stat-item"><span class="stat-label">技巧</span><span class="stat-value" id="stat-skill">5</span></div>
+                        <div class="stat-item"><span class="stat-label">幸運</span><span class="stat-value" id="stat-luck">5</span></div>
+                    </div>
+                </div>
+
+                <div class="actions-card glass-panel fade-in delay-1">
+                    <h2>日常排程</h2>
+                    <div class="action-history-container">
+                        <div class="history-track" id="history-track">
+                            <!-- 動作軌跡動態產生 -->
+                        </div>
+                        <div class="history-desc">累積 5 次動作後結算屬性成長</div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn action-btn train" data-action="TRAIN">
+                            <span class="icon">⚔️</span> 訓練
+                            <small>主攻擊/技巧</small>
+                        </button>
+                        <button class="btn action-btn study" data-action="STUDY">
+                            <span class="icon">📖</span> 讀書
+                            <small>主魔法/技巧</small>
+                        </button>
+                        <button class="btn action-btn play" data-action="PLAY_PC">
+                            <span class="icon">💻</span> 玩電腦
+                            <small>主魔法/幸運</small>
+                        </button>
+                        <button class="btn action-btn walk" data-action="WALK">
+                            <span class="icon">🚶</span> 到處走走
+                            <small>主幸運/技巧</small>
+                        </button>
+                        <button class="btn action-btn sleep" data-action="SLEEP">
+                            <span class="icon">🛏️</span> 睡覺
+                            <small>主血量/防禦</small>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 右側：戰鬥與訊息 -->
+            <section class="right-panel">
+                <div class="boss-card glass-panel fade-in delay-2">
+                    <div class="boss-header">
+                        <h2>深淵之塔</h2>
+                        <span class="floor-badge" id="current-floor">第 1 層</span>
+                    </div>
+                    
+                    <div class="boss-info" id="boss-info">
+                        <h3 id="boss-name">第 1 層守衛者</h3>
+                        <div class="boss-stats">
+                            <span>❤️ <span id="boss-hp">0</span></span>
+                            <span>⚔️ <span id="boss-atk">0</span></span>
+                            <span>🛡️ <span id="boss-def">0</span></span>
+                        </div>
+                    </div>
+
+                    <button class="btn battle-btn" id="btn-fight">
+                        挑戰本層 BOSS
+                    </button>
+                </div>
+
+                <div class="log-card glass-panel fade-in delay-3">
+                    <h2>冒險日誌</h2>
+                    <div class="log-container" id="log-container">
+                        <div class="log-entry system">歡迎來到幻域，請開始你的養成之路。</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- 全螢幕解鎖提示 Modal -->
+        <div class="modal-overlay" id="unlock-modal">
+            <div class="modal-content glass-panel">
+                <h2 class="rainbow-text">✨ 新角色解鎖 ✨</h2>
+                <h3 id="unlocked-char-name">進階勇者</h3>
+                <p>你已獲得更強大的角色適應性，是否立即切換？</p>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="btn-modal-cancel">稍後再說</button>
+                    <button class="btn battle-btn" id="btn-modal-confirm">立即切換</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 角色清單切換 Modal -->
+        <div class="modal-overlay" id="char-list-modal">
+            <div class="modal-content glass-panel char-list-content">
+                <h2>📜 已解鎖角色圖鑑</h2>
+                <div class="char-grid" id="char-grid">
+                    <!-- 角色卡片動態產生 -->
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="btn-close-char-list">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
