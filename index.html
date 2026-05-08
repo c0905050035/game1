@@ -17,6 +17,9 @@
                 <span id="player-name">新手冒險者</span>
                 <button id="btn-open-char-list" class="btn-icon" title="切換角色">👤</button>
             </div>
+            <div class="header-right">
+                <button id="btn-reset" class="btn-text danger">重製遊戲</button>
+            </div>
             <div class="exp-bar-container">
                 <div class="exp-bar" id="exp-bar"></div>
                 <span class="exp-text" id="exp-text">0 / 100</span>
@@ -27,14 +30,61 @@
             <!-- 左側：角色屬性與動作 -->
             <section class="left-panel">
                 <div class="stats-card glass-panel fade-in">
-                    <h2>角色能力</h2>
+                    <div class="stats-header">
+                        <h2>角色能力</h2>
+                        <div class="bonus-points-info">
+                            剩餘點數: <span id="bonus-points-available">0</span>
+                        </div>
+                    </div>
                     <div class="stats-grid">
-                        <div class="stat-item"><span class="stat-label">血量</span><span class="stat-value" id="stat-hp">100</span></div>
-                        <div class="stat-item"><span class="stat-label">攻擊</span><span class="stat-value" id="stat-atk">10</span></div>
-                        <div class="stat-item"><span class="stat-label">魔法</span><span class="stat-value" id="stat-mag">10</span></div>
-                        <div class="stat-item"><span class="stat-label">防禦</span><span class="stat-value" id="stat-def">5</span></div>
-                        <div class="stat-item"><span class="stat-label">技巧</span><span class="stat-value" id="stat-skill">5</span></div>
-                        <div class="stat-item"><span class="stat-label">幸運</span><span class="stat-value" id="stat-luck">5</span></div>
+                        <div class="stat-item">
+                            <span class="stat-label">血量</span>
+                            <div class="stat-control">
+                                <button class="btn-stat" data-stat="hp" data-op="minus">-</button>
+                                <span class="stat-value" id="stat-hp">100</span>
+                                <button class="btn-stat" data-stat="hp" data-op="plus">+</button>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">攻擊</span>
+                            <div class="stat-control">
+                                <button class="btn-stat" data-stat="atk" data-op="minus">-</button>
+                                <span class="stat-value" id="stat-atk">10</span>
+                                <button class="btn-stat" data-stat="atk" data-op="plus">+</button>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">魔法</span>
+                            <div class="stat-control">
+                                <button class="btn-stat" data-stat="mag" data-op="minus">-</button>
+                                <span class="stat-value" id="stat-mag">10</span>
+                                <button class="btn-stat" data-stat="mag" data-op="plus">+</button>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">防禦</span>
+                            <div class="stat-control">
+                                <button class="btn-stat" data-stat="def" data-op="minus">-</button>
+                                <span class="stat-value" id="stat-def">5</span>
+                                <button class="btn-stat" data-stat="def" data-op="plus">+</button>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">技巧</span>
+                            <div class="stat-control">
+                                <button class="btn-stat" data-stat="skill" data-op="minus">-</button>
+                                <span class="stat-value" id="stat-skill">5</span>
+                                <button class="btn-stat" data-stat="skill" data-op="plus">+</button>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">幸運</span>
+                            <div class="stat-control">
+                                <button class="btn-stat" data-stat="luck" data-op="minus">-</button>
+                                <span class="stat-value" id="stat-luck">5</span>
+                                <button class="btn-stat" data-stat="luck" data-op="plus">+</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -77,15 +127,29 @@
                 <div class="boss-card glass-panel fade-in delay-2">
                     <div class="boss-header">
                         <h2>深淵之塔</h2>
-                        <span class="floor-badge" id="current-floor">第 1 層</span>
+                        <div class="floor-selector">
+                            <span>第</span>
+                            <input type="number" id="input-floor" min="1" value="1">
+                            <span>層</span>
+                        </div>
                     </div>
                     
                     <div class="boss-info" id="boss-info">
-                        <h3 id="boss-name">第 1 層守衛者</h3>
+                        <div class="boss-title-row">
+                            <h3 id="boss-name">第 1 層守衛者</h3>
+                            <span id="boss-weakness" class="weakness-badge">虛弱: 0%</span>
+                        </div>
                         <div class="boss-stats">
-                            <span>❤️ <span id="boss-hp">0</span></span>
-                            <span>⚔️ <span id="boss-atk">0</span></span>
-                            <span>🛡️ <span id="boss-def">0</span></span>
+                            <div class="boss-stat-row">
+                                <span>❤️ <span id="boss-hp">0</span></span>
+                                <span>⚔️ <span id="boss-atk">0</span></span>
+                                <span>🔮 <span id="boss-mag">0</span></span>
+                            </div>
+                            <div class="boss-stat-row">
+                                <span>🛡️ <span id="boss-def">0</span></span>
+                                <span>🎯 <span id="boss-skill">0</span></span>
+                                <span>🍀 <span id="boss-luck">0</span></span>
+                            </div>
                         </div>
                     </div>
 
